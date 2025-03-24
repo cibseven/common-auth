@@ -1,4 +1,4 @@
-package de.cib.auth;
+package org.cibseven.webapp.auth;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
