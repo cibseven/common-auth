@@ -1,4 +1,4 @@
-package de.cib.auth;
+package org.cibseven.webapp.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 

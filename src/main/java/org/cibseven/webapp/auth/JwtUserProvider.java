@@ -1,4 +1,4 @@
-package de.cib.auth;
+package org.cibseven.webapp.auth;
 
 import java.nio.charset.Charset;
 import java.time.Duration;
