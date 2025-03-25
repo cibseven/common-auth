@@ -4,7 +4,7 @@ import org.cibseven.webapp.auth.Login;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "When passing this as body you must include 'type': 'de.cib.auth.rest.StandardLogin'")
+@Schema(description = "When passing this as body you must include 'type': 'org.cibseven.webapp.auth.rest.StandardLogin'")
 public class StandardLogin implements Login {
 	
 	String username;
