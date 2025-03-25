@@ -1,4 +1,4 @@
-package org.cibseven.webapp.auth;
+package org.cibseven.webapp.auth.providers;
 
 import java.nio.charset.Charset;
 import java.time.Duration;
@@ -7,6 +7,11 @@ import java.util.Date;
 import java.util.Optional;
 
 import javax.crypto.SecretKey;
+
+import org.cibseven.webapp.auth.Login;
+import org.cibseven.webapp.auth.User;
+import org.cibseven.webapp.auth.exception.AuthenticationException;
+import org.cibseven.webapp.auth.exception.TokenExpiredException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

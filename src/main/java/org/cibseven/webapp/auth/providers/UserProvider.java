@@ -1,4 +1,8 @@
-package org.cibseven.webapp.auth;
+package org.cibseven.webapp.auth.providers;
+
+import org.cibseven.webapp.auth.Login;
+import org.cibseven.webapp.auth.User;
+import org.cibseven.webapp.auth.exception.AuthenticationException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
