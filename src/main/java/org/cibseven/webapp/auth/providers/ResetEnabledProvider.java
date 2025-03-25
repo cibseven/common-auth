@@ -1,4 +1,4 @@
-package org.cibseven.webapp.auth;
+package org.cibseven.webapp.auth.providers;
 
 import java.util.Locale;
 import java.util.Map;
