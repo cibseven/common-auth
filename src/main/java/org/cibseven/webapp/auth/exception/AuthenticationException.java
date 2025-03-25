@@ -1,4 +1,4 @@
-package org.cibseven.webapp.auth;
+package org.cibseven.webapp.auth.exception;
 
 public class AuthenticationException extends RuntimeException {
 	
