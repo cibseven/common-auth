@@ -1,10 +1,10 @@
 package org.cibseven.webapp.auth.providers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.cibseven.webapp.auth.Login;
 import org.cibseven.webapp.auth.User;
 import org.cibseven.webapp.auth.exception.AuthenticationException;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 public interface UserProvider<T extends Login> {
 	

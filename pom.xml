@@ -10,7 +10,7 @@
     
     <groupId>org.cibseven.webapp.auth</groupId>
     <artifactId>common-auth</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-javax-SNAPSHOT</version>
     
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +19,7 @@
 		
 		<jjwt.version>0.12.6</jjwt.version>
 		<swagger-annotations.version>2.2.27</swagger-annotations.version>
-		<javax-servlet-api.version>6.0.0</javax-servlet-api.version>
+		<javax-servlet-api.version>4.0.1</javax-servlet-api.version>
 		
 		<project.git.url>${gitlab.url}/web/common/common-auth.git</project.git.url>
     </properties>    
@@ -33,8 +33,8 @@
 	
     <dependencies>   
     	<dependency>						
-			<groupId>jakarta.servlet</groupId>
-		    <artifactId>jakarta.servlet-api</artifactId>		
+			<groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>		
 			<version>${javax-servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>	

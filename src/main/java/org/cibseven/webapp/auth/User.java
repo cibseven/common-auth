@@ -8,6 +8,8 @@ public interface User {
 	
 	String getAuthToken();
 	
+	void setAuthToken(String token);
+	
 	default String getUrlToken() {
 		return getAuthToken();
 	};

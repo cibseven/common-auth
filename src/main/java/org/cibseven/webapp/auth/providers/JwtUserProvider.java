@@ -1,12 +1,12 @@
 package org.cibseven.webapp.auth.providers;
 
 import java.nio.charset.Charset;
-import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
 
 import javax.crypto.SecretKey;
+import javax.servlet.http.HttpServletRequest;
 
 import org.cibseven.webapp.auth.Login;
 import org.cibseven.webapp.auth.User;
@@ -18,18 +18,11 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
 
 public interface JwtUserProvider<T extends Login> extends UserProvider<T> {
 	
 	static final String BEARER_PREFIX = "Bearer ";
 	static final Charset UTF8 = Charset.forName("UTF-8");	
-	
-	public static interface TokenSettings {
-		String getSecret();	
-		Duration getValid();	
-		Duration getProlong();
-	}
 	
 	TokenSettings getSettings();
 	
