@@ -31,7 +31,7 @@ pipeline {
     // Parameter that can be changed in the Jenkins UI
     parameters {
         booleanParam(
-            name: 'INSTALL',
+            name: 'PACKAGE',
             defaultValue: true,
             description: 'Build and test'
         )
@@ -93,14 +93,14 @@ pipeline {
             }
         }
 
-        stage('Maven install') {
+        stage('Maven package') {
             when {
-                expression { params.INSTALL }
+                expression { params.PACKAGE }
             }
             steps {
                 script {
                     withMaven(options: [junitPublisher(disabled: false), jacocoPublisher(disabled: false)]) {
-                        sh "mvn -T4 -Dbuild.number=${BUILD_NUMBER} install"
+                        sh "mvn -T4 -Dbuild.number=${BUILD_NUMBER} package"
                     }
                     if (!params.DEPLOY_TO_ARTIFACTS && !params.DEPLOY_TO_MAVEN_CENTRAL) {
                         junit allowEmptyResults: true, testResults: ConstantsInternal.MAVEN_TEST_RESULTS
