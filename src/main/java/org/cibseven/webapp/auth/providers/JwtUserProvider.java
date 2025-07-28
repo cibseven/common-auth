@@ -59,7 +59,7 @@ public interface JwtUserProvider<T extends Login> extends UserProvider<T> {
 	
 	default User parse(String token, TokenSettings settings) {
 		try {			
-			SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(settings.getSecret()));
+			SecretKey key = createKey(settings.getSecret());
 			Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
 			User user = deserialize((String) claims.get("user"), JwtUserProvider.BEARER_PREFIX + token);
 			if ((boolean) claims.get("verify") && verify(claims) == null)
@@ -95,9 +95,13 @@ public interface JwtUserProvider<T extends Login> extends UserProvider<T> {
 	    		.add("verify", verify)
 	    		.add("user", serialize(user))
 	    		.and()
-	    		.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(settings.getSecret())))
+	    		.signWith(createKey(settings.getSecret()))
 	    		.compact();
-	};	
+	};
+	
+	default SecretKey createKey(String secret) {
+		return Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret));
+	}
 	
 	String serialize(User user);
 	
