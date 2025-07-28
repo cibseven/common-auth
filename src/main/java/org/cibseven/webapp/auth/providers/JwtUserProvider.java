@@ -17,7 +17,6 @@
 package org.cibseven.webapp.auth.providers;
 
 import java.nio.charset.Charset;
-import java.security.Key;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
