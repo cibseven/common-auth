@@ -16,19 +16,30 @@
  */
 package org.cibseven.webapp.auth.exception;
 
+/**
+ * The Class LoginException.
+ */
 public class LoginException extends AuthenticationException {
-	
+
+	/**
+	 * Instantiates a new login exception.
+	 */
 	public LoginException() {
 		super();
-	}	
-	
-	public LoginException(Object ...data) {
+	}
+
+	/**
+	 * Instantiates a new login exception.
+	 *
+	 * @param data the data
+	 */
+	public LoginException(Object... data) {
 		super(data);
-	}	
-	
+	}
+
 	@Override
 	public boolean isNoAuth() {
 		return false;
 	}
-	
+
 }

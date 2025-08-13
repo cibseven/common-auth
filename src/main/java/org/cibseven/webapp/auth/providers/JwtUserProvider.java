@@ -36,19 +36,51 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * The Interface JwtUserProvider.
+ *
+ * @param <T> the generic type
+ */
 public interface JwtUserProvider<T extends Login> extends UserProvider<T> {
-	
+
+	/** The Constant BEARER_PREFIX. */
 	static final String BEARER_PREFIX = "Bearer ";
-	static final Charset UTF8 = Charset.forName("UTF-8");	
-	
+	/** The Constant UTF8. */
+	static final Charset UTF8 = Charset.forName("UTF-8");
+
+	/**
+	 * The Interface TokenSettings.
+	 */
 	public static interface TokenSettings {
-		String getSecret();	
-		Duration getValid();	
+		/**
+		 * Gets the secret.
+		 *
+		 * @return the secret
+		 */
+		String getSecret();
+
+		/**
+		 * Gets the valid.
+		 *
+		 * @return the valid
+		 */
+		Duration getValid();
+
+		/**
+		 * Gets the prolong.
+		 *
+		 * @return the prolong
+		 */
 		Duration getProlong();
 	}
-	
+
+	/**
+	 * Gets the settings.
+	 *
+	 * @return the settings
+	 */
 	TokenSettings getSettings();
-	
+
 	@Override
 	default User authenticate(HttpServletRequest rq) {
 		return Optional.ofNullable(rq.getHeader("Authorization"))
@@ -56,53 +88,92 @@ public interface JwtUserProvider<T extends Login> extends UserProvider<T> {
 				.map(token -> this.parse(token, getSettings()))
 				.orElseThrow(() -> new AuthenticationException());
 	}
-	
+
+	/**
+	 * Parses the.
+	 *
+	 * @param token    the token
+	 * @param settings the settings
+	 * @return the user
+	 */
 	default User parse(String token, TokenSettings settings) {
-		try {			
+		try {
 			SecretKey key = createKey(settings.getSecret());
 			Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
 			User user = deserialize((String) claims.get("user"), JwtUserProvider.BEARER_PREFIX + token);
 			if ((boolean) claims.get("verify") && verify(claims) == null)
 				throw new AuthenticationException(token);
-			return user;			
+			return user;
 		} catch (ExpiredJwtException x) {
 			long ageMillis = System.currentTimeMillis() - x.getClaims().getExpiration().getTime();
 			if ((boolean) x.getClaims().get("prolongable") && (ageMillis < settings.getProlong().toMillis())) {
 				User user = verify(x.getClaims());
 				if (user != null)
-					throw new TokenExpiredException(createToken(settings, true, false, user));				
+					throw new TokenExpiredException(createToken(settings, true, false, user));
 			}
-			throw new TokenExpiredException();			
+			throw new TokenExpiredException();
 		} catch (JwtException x) {
 			throw new AuthenticationException(token);
 		}
-	}	
-	
+	}
+
+	/**
+	 * Deserialize.
+	 *
+	 * @param json  the json
+	 * @param token the token
+	 * @return the user
+	 */
 	User deserialize(String json, String token);
-	
-	/** 
-	 * @return null if the user was changed (especially password) after the token was issued or a user if it hasn't changed in the meantime
+
+	/**
+	 * Verify.
+	 *
+	 * @param claims the claims
+	 * @return null if the user was changed (especially password) after the token
+	 *         was issued or a user if it hasn't changed in the meantime
 	 */
 	User verify(Claims claims);
-	
+
+	/**
+	 * Creates the token.
+	 *
+	 * @param settings    the settings
+	 * @param prolongable the prolongable
+	 * @param verify      the verify
+	 * @param user        the user
+	 * @return the string
+	 */
 	default String createToken(TokenSettings settings, boolean prolongable, boolean verify, User user) {
 		return BEARER_PREFIX + Jwts.builder()
 				.claims()
-		    	.subject(user.getId())
-	    		.expiration(new Date(System.currentTimeMillis() + settings.getValid().toMillis()))
-	    		.issuedAt(new Date())
-	    		.add("prolongable", prolongable)
-	    		.add("verify", verify)
-	    		.add("user", serialize(user))
-	    		.and()
-	    		.signWith(createKey(settings.getSecret()))
-	    		.compact();
+				.subject(user.getId())
+				.expiration(new Date(System.currentTimeMillis() + settings.getValid().toMillis()))
+				.issuedAt(new Date())
+				.add("prolongable", prolongable)
+				.add("verify", verify)
+				.add("user", serialize(user))
+				.and()
+				.signWith(createKey(settings.getSecret()))
+				.compact();
 	};
-	
+
+	/**
+	 * Creates the key.
+	 *
+	 * @param secret the secret
+	 * @return the secret key
+	 */
 	default SecretKey createKey(String secret) {
 		return Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret));
 	}
-	
+
+	/**
+	 * Serialize.
+	 *
+	 * @param user the user
+	 * @return the string
+	 */
 	String serialize(User user);
-	
+
 }

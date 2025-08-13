@@ -16,20 +16,39 @@
  */
 package org.cibseven.webapp.auth.exception;
 
+/**
+ * The Class AuthenticationException.
+ */
 public class AuthenticationException extends RuntimeException {
-	
+
+	/** The data. */
 	protected Object[] data;
-	
+
+	/**
+	 * Gets the data.
+	 *
+	 * @return the data
+	 */
 	public Object[] getData() {
 		return data;
 	}
-	
-	public AuthenticationException(Object ...data) {
+
+	/**
+	 * Instantiates a new authentication exception.
+	 *
+	 * @param data the data
+	 */
+	public AuthenticationException(Object... data) {
 		this.data = data;
-	}	
-	
+	}
+
+	/**
+	 * Checks if is no auth.
+	 *
+	 * @return true, if is no auth
+	 */
 	public boolean isNoAuth() {
 		return data.length == 0;
 	}
-	
+
 }

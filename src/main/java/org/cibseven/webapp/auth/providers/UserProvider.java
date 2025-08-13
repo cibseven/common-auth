@@ -22,14 +22,46 @@ import org.cibseven.webapp.auth.exception.AuthenticationException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * The Interface UserProvider.
+ *
+ * @param <T> the generic type
+ */
 public interface UserProvider<T extends Login> {
-	
+
+	/**
+	 * Login.
+	 *
+	 * @param params the params
+	 * @param rq     the rq
+	 * @return the user
+	 * @throws AuthenticationException the authentication exception
+	 */
 	User login(T params, HttpServletRequest rq) throws AuthenticationException;
-	
+
+	/**
+	 * Gets the user info.
+	 *
+	 * @param user   the user
+	 * @param userId the user id
+	 * @return the user info
+	 */
 	User getUserInfo(User user, String userId);
-	
-	void logout(User user);	
-	
+
+	/**
+	 * Logout.
+	 *
+	 * @param user the user
+	 */
+	void logout(User user);
+
+	/**
+	 * Authenticate.
+	 *
+	 * @param rq the rq
+	 * @return the user
+	 * @throws AuthenticationException the authentication exception
+	 */
 	User authenticate(HttpServletRequest rq) throws AuthenticationException;
-	
+
 }
