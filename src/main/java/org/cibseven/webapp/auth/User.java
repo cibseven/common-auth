@@ -16,14 +16,37 @@
  */
 package org.cibseven.webapp.auth;
 
+/**
+ * The Interface User.
+ */
 public interface User {
-	
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	String getId();
-	
+
+	/**
+	 * Gets the display name.
+	 *
+	 * @return the display name
+	 */
 	String getDisplayName();
-	
+
+	/**
+	 * Gets the auth token.
+	 *
+	 * @return the auth token
+	 */
 	String getAuthToken();
-	
+
+	/**
+	 * Gets the url token.
+	 *
+	 * @return the url token
+	 */
 	default String getUrlToken() {
 		return getAuthToken();
 	};

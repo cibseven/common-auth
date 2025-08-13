@@ -20,12 +20,39 @@ import java.util.Locale;
 
 import org.cibseven.webapp.auth.providers.UserProvider;
 
+/**
+ * The Interface UserManager.
+ *
+ * @param <W> the generic type
+ * @param <R> the generic type
+ */
 public interface UserManager<W extends Login, R extends Login> extends UserProvider<R> {
-	
+
+	/**
+	 * Update.
+	 *
+	 * @param user   the user
+	 * @param params the params
+	 * @return the user
+	 */
 	User update(User user, W params);
-	
+
+	/**
+	 * Creates the.
+	 *
+	 * @param user   the user
+	 * @param params the params
+	 * @param loc    the loc
+	 * @return the user
+	 */
 	User create(User user, W params, Locale loc);
-	
+
+	/**
+	 * Delete.
+	 *
+	 * @param user   the user
+	 * @param userId the user id
+	 */
 	void delete(User user, String userId);
-	
+
 }

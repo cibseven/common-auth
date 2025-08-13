@@ -16,15 +16,23 @@
  */
 package org.cibseven.webapp.auth.exception;
 
+/**
+ * The Class TokenExpiredException.
+ */
 public class TokenExpiredException extends AuthenticationException {
-	
-	public TokenExpiredException(Object...newTokens) {
+
+	/**
+	 * Instantiates a new token expired exception.
+	 *
+	 * @param newTokens the new tokens
+	 */
+	public TokenExpiredException(Object... newTokens) {
 		super(newTokens);
-	}	
-	
+	}
+
 	@Override
 	public boolean isNoAuth() {
 		return false;
 	}
-	
+
 }

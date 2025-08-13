@@ -16,8 +16,16 @@
  */
 package org.cibseven.webapp.auth;
 
+/**
+ * The Interface RegisteredUser.
+ */
 public interface RegisteredUser extends User {
-	
+
+	/**
+	 * Gets the email.
+	 *
+	 * @return the email
+	 */
 	String getEmail();
 
 }
