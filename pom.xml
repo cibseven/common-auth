@@ -10,7 +10,7 @@
     
     <groupId>org.cibseven.webapp.auth</groupId>
     <artifactId>common-auth</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
 
 	<name>CIB seven common authentication</name>
     <description>Common authentication library for CIB seven web applications</description>
