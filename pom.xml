@@ -22,7 +22,6 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		
 		<jjwt.version>0.12.6</jjwt.version>
-		<swagger-annotations.version>2.2.36</swagger-annotations.version>
 		<javax-servlet-api.version>6.0.0</javax-servlet-api.version>
 		
 		<project.git.url>${gitlab.url}/web/common/common-auth.git</project.git.url>
