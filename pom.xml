@@ -23,6 +23,8 @@
 		
 		<jjwt.version>0.12.6</jjwt.version>
 		<javax-servlet-api.version>6.0.0</javax-servlet-api.version>
+		<!-- JUnit 5: the library is compiled for Java 11 (release-parent), JUnit 6 needs Java 17 -->
+		<junit-jupiter.version>5.13.4</junit-jupiter.version>
 		
 		<project.git.url>${gitlab.url}/web/common/common-auth.git</project.git.url>
 		
@@ -81,6 +83,13 @@ You may obtain a copy of the License at
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations-jakarta</artifactId>
 			<version>${swagger-annotations.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit-jupiter.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
