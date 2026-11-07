@@ -22,6 +22,10 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		
 		<jjwt.version>0.12.6</jjwt.version>
+		<!-- The Gson version Spring Boot 4.1 manages -->
+		<gson.version>2.13.2</gson.version>
+		<!-- The annotations of Jackson 2.21 and Jackson 3.1 -->
+		<jackson-annotations.version>2.21</jackson-annotations.version>
 		<javax-servlet-api.version>6.0.0</javax-servlet-api.version>
 		<!-- JUnit 5: the library is compiled for Java 11 (release-parent), JUnit 6 needs Java 17 -->
 		<junit-jupiter.version>5.13.4</junit-jupiter.version>
@@ -73,10 +77,29 @@ You may obtain a copy of the License at
 			<version>${jjwt.version}</version>
 		</dependency>
 		
+		<!-- The JSON implementation jjwt reads and writes the tokens with (found through the ServiceLoader).
+		     Gson, not jjwt-jackson: jjwt has no Jackson 3 module, and jjwt-jackson would put Jackson 2
+		     (jackson-databind) on the classpath of every application that uses this library. -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
+			<artifactId>jjwt-gson</artifactId>
 			<version>${jjwt.version}</version>
+		</dependency>
+
+		<!-- Newer than the Gson 2.9.0 of jjwt-gson 0.12.6: since Gson 2.9.1 nested JSON is read without recursion,
+		     since 2.12 its nesting depth is limited. The token header is read before its signature is checked. -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+
+		<!-- @JsonTypeInfo on Login. Jackson 2 and Jackson 3 both use these annotations
+		     (package com.fasterxml.jackson.annotation); they used to come in through jjwt-jackson. -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson-annotations.version}</version>
 		</dependency>
 		
 		<dependency>

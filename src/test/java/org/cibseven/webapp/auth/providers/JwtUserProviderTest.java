@@ -27,8 +27,11 @@ import java.lang.reflect.Proxy;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
+import java.util.ServiceLoader;
 
 import javax.crypto.SecretKey;
 
@@ -44,6 +47,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Deserializer;
+import io.jsonwebtoken.io.Serializer;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -371,6 +376,26 @@ class JwtUserProviderTest {
 					() -> provider.authenticate(request("Basic amRvZTpzZWNyZXQ=")));
 
 			assertTrue(x.isNoAuth());
+		}
+	}
+
+	/**
+	 * jjwt takes the first JSON implementation the ServiceLoader finds. There must be exactly one, Gson: jjwt-jackson
+	 * would bring Jackson 2 back to the applications.
+	 */
+	@Nested
+	class JsonImplementation {
+
+		@Test
+		void isGson() {
+			assertEquals(List.of("io.jsonwebtoken.gson.io.GsonSerializer"), implementations(Serializer.class));
+			assertEquals(List.of("io.jsonwebtoken.gson.io.GsonDeserializer"), implementations(Deserializer.class));
+		}
+
+		List<String> implementations(Class<?> service) {
+			List<String> names = new ArrayList<>();
+			ServiceLoader.load(service).stream().forEach(provider -> names.add(provider.type().getName()));
+			return names;
 		}
 	}
 
