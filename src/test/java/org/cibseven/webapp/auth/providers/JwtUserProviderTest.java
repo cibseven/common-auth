@@ -213,7 +213,10 @@ class JwtUserProviderTest {
 		/** The header is read before the signature is checked, so whatever is in it must end as a 401. */
 		@ParameterizedTest
 		@ValueSource(strings = { "", "null", "\"HS256\"", "[\"HS256\"]", "{\"alg\":\"HS256\"", "{\"alg\":\"HS256\"} {}",
-				"{alg:'HS256'}", "{\"alg\":\"none\"}", "{\"alg\":42}", "{\"alg\":\"HS256\",\"crit\":[\"exp\"]}" })
+				"{alg:'HS256'}", "{\"alg\":\"none\"}", "{\"alg\":42}", "{\"alg\":\"HS256\",\"crit\":[\"exp\"]}",
+				// duplicate keys: jjwt's Gson backend takes the last value, its Jackson backend rejects them
+				"{\"alg\":\"HS256\",\"alg\":\"none\"}", "{\"alg\":\"none\",\"alg\":\"HS256\"}",
+				"{\"alg\":\"HS256\",\"alg\":\"HS256\"}" })
 		void rejectsATokenWithAMalformedHeader(String header) {
 			String token = base64Url(header) + "." + base64Url("{\"sub\":\"jdoe\"}") + "." + base64Url("signature");
 
