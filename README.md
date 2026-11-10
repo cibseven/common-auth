@@ -86,6 +86,12 @@ For `verify(Claims)` implementations:
 
 `jackson-annotations` stays a dependency for the `@JsonTypeInfo` on `Login`. Jackson 2 and Jackson 3 both use it.
 
+#### Upgrading from 1.4.0
+
+- `jackson-databind` and `jackson-core` no longer come in through common-auth. Applications that use them must declare them themselves.
+- Tokens issued by 1.4.0 are accepted by 1.5.0, and the other way round.
+- A token with a duplicate JSON key is read with the last value; 1.4.0 rejected it. Only a holder of the secret can issue such a token.
+
 ## Building
 
 ```bash
