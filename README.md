@@ -74,6 +74,24 @@ public class MyUserProvider implements JwtUserProvider<StandardLogin> {
 }
 ```
 
+### JSON implementation
+
+jjwt reads and writes the token JSON with Gson (`jjwt-gson`). Up to 1.4.0 the library used `jjwt-jackson`, which put Jackson 2 (`jackson-databind`) on the classpath of every application; jjwt has no Jackson 3 module. Tokens issued with one are accepted with the other, so tokens survive an update.
+
+For `verify(Claims)` implementations:
+
+- Read `exp` and `iat` with `getExpiration()` and `getIssuedAt()`, as before. The `user` claim is a `String`, `prolongable` and `verify` are `Boolean`s, as before.
+- Custom numeric claims come back as `Double` with Gson (`Integer` or `Long` with Jackson), so `claims.get("n", Integer.class)` and `require("n", 42)` fail. Read them as `Number`.
+- Do not add `jjwt-jackson` or `jjwt-orgjson` next to it: jjwt uses the first JSON implementation the `ServiceLoader` finds.
+
+`jackson-annotations` stays a dependency for the `@JsonTypeInfo` on `Login`. Jackson 2 and Jackson 3 both use it.
+
+#### Upgrading from 1.4.0
+
+- `jackson-databind` and `jackson-core` no longer come in through common-auth. Applications that use them must declare them themselves.
+- Tokens issued by 1.4.0 are accepted by 1.5.0, and the other way round.
+- A token with a duplicate JSON key is read with the last value; 1.4.0 rejected it. Only a holder of the secret can issue such a token.
+
 ## Building
 
 ```bash
